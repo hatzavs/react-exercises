@@ -7,33 +7,20 @@ class Timer extends Component {
 		this.state = {
 			seconds: 0,
 			paused: true,
-			play: false,
-			started: false
+			play: false
 		};
 	}
 	
-	// componentDidMount() {
-		
-	// }
-
 	play() {
 		if (this.state.play) return;
-		if (this.state.started) {
-			this.setState({
-				paused: false,
-				play: true
-			});
-			return;
-		}
 		this.setState({
-			paused: false
+			paused: false,
+			play: true
 		});
-		setInterval(() => {
-			// let counter = this.state.seconds;
+		this.seconds = setInterval(() => {
 			if (!this.state.paused) {
 				this.setState({
-					seconds: this.state.seconds + 1,
-					started: true
+					seconds: this.state.seconds + 1
 				});
 			}
 		}, 1000);
@@ -46,12 +33,16 @@ class Timer extends Component {
 	}
 
 	pause() {
+		clearInterval(this.seconds);
 		this.setState({
 			paused: true,
 			play: false
 		});
 	}
 
+	componentWillUnmount() {
+		clearInterval(this.seconds);
+	}
 
 	render() {
 		return (
@@ -68,7 +59,7 @@ class Timer extends Component {
 					<button onClick={this.reset.bind(this)}>Reset</button>
 				</div>
 				<div className="Timer__value">{this.state.seconds}</div>
-				<div>{this.state.started && this.state.paused && <span>Timer paused</span>}</div>
+				<div>{this.state.paused && <span>Timer paused</span>}</div>
 			</div>
 		)
 	}
