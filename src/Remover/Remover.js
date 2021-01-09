@@ -15,6 +15,10 @@ class Remover extends Component {
 		};
 	}
 
+	handleClick(e) {
+		e.target.parentNode.className = 'remove';
+	}
+
 	render() {
 		return (
 			<div className="Remover">
@@ -22,7 +26,7 @@ class Remover extends Component {
 				<p>Add a delete button for each student to remove it from the list.</p>
 				<ul className="Remover__list">
 					{this.state.students.map((student, index) => {
-						return <li key={index}>{student}</li>;
+						return <li key={index}><button onClick={this.handleClick.bind(this)}>x</button> {student}</li>;
 					})}
 				</ul>
 			</div>
